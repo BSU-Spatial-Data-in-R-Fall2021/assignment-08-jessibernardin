@@ -1,6 +1,6 @@
 ---
 title: "Making static maps"
-author: "Matt Williamson"
+author: "Jessica Bernardin"
 date: "10/20/2021"
 output: html_document
 ---
