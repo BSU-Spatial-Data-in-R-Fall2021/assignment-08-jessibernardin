@@ -60,9 +60,11 @@ library(cartogram)
 library(patchwork)
 library(tmap)
 library(viridis)
+library(tigris)
 
 ```
 
+- I am going to map mammal richness and state income and see which effects state park visits the most.  Do parks in states with higher incomes get more visits (more money to travel and have fun) or states with higher mammal richness because there is more interesting animals to see?
 
 ```{r data}
 
@@ -84,7 +86,22 @@ state.income <- tidycensus:: get_acs(geography = "state",
 
 #park names and visits in the intermountain west (tabular data, can join by state)
 park.visits <- read.csv("/opt/data/session14//ParkVisits_2020IWPW.csv", skip = 3)
+
+#look to see what I can join by
+#need to add info to park visits file so that I can merge by the same name
 colnames(park.visits)
+colnames(state.income)
+
+fips <- data(fips_codes)
+
+fips < select(fips, state:state_name)
+?tigris
+
+#need to join the tab data (park visits) with the sf object (state income)
+
+stateincome.parkvisits <- left_join(state.income, park.visits, by=())
+
+
 ```
 
 
