@@ -25,8 +25,8 @@ Find 2 examples of maps that you think are 'bad'.
 
 ```{r badmaps, echo=FALSE, fig.cap= c("Bad Map", "Good Map", out.width = '100%'}
 
-knitr::include_graphics("temp.png")
-knitr::include_graphics("temp.png")
+knitr::include_graphics("/code/miniproject_badmap.png")
+knitr::include_graphics("/code/rano_goodmap.png")
 
 ```
 
