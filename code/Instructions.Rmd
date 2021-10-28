@@ -23,22 +23,23 @@ _By the end of the assignment_ you should have several static maps displaying th
 # Task 1: Show me your ugly maps!!
 Find 2 examples of maps that you think are 'bad'. 
 
-```{r badmaps, echo=FALSE, fig.cap= c("Bad Map", "Good Map", out.width = '100%'}
+```{r badmaps, echo=TRUE, fig.cap= c("Bad Map Temp", "Bad Map Watersheds"), out.width = '100%'}
 
-knitr::include_graphics("/code/miniproject_badmap.png")
-knitr::include_graphics("/code/rano_goodmap.png")
+knitr::include_graphics("img/miniproject_badmap.png")
+knitr::include_graphics("img/watershed_badmap.png")
 
 ```
 
 
-
 _Question 1_ Why are they bad? What might improve them? 
 
-- 
+- The bad maps are maps I plotted from my mini project.  The first map the CRS are off, the points are in the ocean, the map is stretched, and the colors are horrible.  Also the scale/key isn't labeled so no one knows what the colors or points are.  To improve this map I would label the points (with smaller dots) and include units on the key.  I would also work on cropping so that the extra space was eliminated.  Lastly, I would change the colors to be more appealing.
+
+- The second map has not text, no labels, no colors and it is really busy.
 
 _Question 2_ Rely on the Healy and Wilke texts to provide some structure to your answers.
 
-- 
+- In general these figures have aesthetic problems, are unclear, and are objectively incorrect because the wrong CRS.
 
 # Task 2: Load your libraries and build a dataframe
 You can choose whichever datasets you'd like from the past several months as the subject for your mapping. You'll need to use at least one tabular join, one spatial join, and one extraction to create the dataframe. Load the packages, the data, and make sure everything is projected here. Give me a sense for what you are hoping to map.
