@@ -92,14 +92,28 @@ park.visits <- read.csv("/opt/data/session14//ParkVisits_2020IWPW.csv", skip = 3
 colnames(park.visits)
 colnames(state.income)
 
-fips <- data(fips_codes)
+data(fips_codes)
+str(state.income$NAME)
 
-fips < select(fips, state:state_name)
-?tigris
+
+fips_codes1 <- fips_codes[, -c(4:5)]
+
+fips_codes1 <- unique(fips_codes1)
+
+str(fips_codes1$state_name)
+
+state.income.fips <- dplyr::left_join(state.income, fips_codes1, by = c("NAME" = "state_name"))
+
 
 #need to join the tab data (park visits) with the sf object (state income)
 
-stateincome.parkvisits <- left_join(state.income, park.visits, by=())
+stateincome.parkvisits <- left_join(park.visits, state.income.fips, by = c("State" = "state"))
+
+##now I need to extract mammal richness from the raster and add it to my new dataframe
+
+
+
+
 
 
 ```
