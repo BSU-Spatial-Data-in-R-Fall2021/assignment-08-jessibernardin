@@ -23,6 +23,15 @@ _By the end of the assignment_ you should have several static maps displaying th
 # Task 1: Show me your ugly maps!!
 Find 2 examples of maps that you think are 'bad'. 
 
+```{r badmaps, echo=FALSE, fig.cap= c("Bad Map", "Good Map", out.width = '100%'}
+
+knitr::include_graphics("temp.png")
+knitr::include_graphics("temp.png")
+
+```
+
+
+
 _Question 1_ Why are they bad? What might improve them? 
 
 - 
@@ -51,8 +60,6 @@ library(patchwork)
 library(tmap)
 library(viridis)
 
-
-
 ```
 
 
@@ -64,6 +71,8 @@ library(viridis)
 
 #mammal richness for the western us (raster)
 mammal.rich <- rast("/opt/data/session16//Mammals_total_richness.tif")
+mammal.rich <- catalyze(mammal.rich)
+mammal.rich <- mammal.rich[[2]]
 
 #median income by state (spatial)
 state.income <- tidycensus:: get_acs(geography = "state", 
@@ -74,7 +83,7 @@ state.income <- tidycensus:: get_acs(geography = "state",
 
 #park names and visits in the intermountain west (tabular data, can join by state)
 park.visits <- read.csv("/opt/data/session14//ParkVisits_2020IWPW.csv", skip = 3)
-
+colnames(park.visits)
 ```
 
 
