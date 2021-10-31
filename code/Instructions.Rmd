@@ -23,12 +23,8 @@ _By the end of the assignment_ you should have several static maps displaying th
 # Task 1: Show me your ugly maps!!
 Find 2 examples of maps that you think are 'bad'. 
 
-```{r badmaps, echo=TRUE, fig.cap= c("Bad Map Temp", "Bad Map Watersheds"), out.width = '100%'}
-
-knitr::include_graphics("img/miniproject_badmap.png")
-knitr::include_graphics("img/watershed_badmap.png")
-
-```
+![badmap1](miniproject_badmap.png)
+![badmap2](watershed_badmap.png)
 
 
 _Question 1_ Why are they bad? What might improve them? 
@@ -64,7 +60,7 @@ library(tigris)
 
 ```
 
-- I am going to map mammal richness and state income and see which effects state park visits the most.  Do parks in states with higher incomes get more visits (more money to travel and have fun) or states with higher mammal richness because there is more interesting animals to see?
+- I am going to map mammal richness and state income and see which effects state park visits the most.  Do parks in states with higher incomes get more visits (more money to travel and have fun) or states with higher mammal richness because there are more interesting animals to see?
 
 ```{r data}
 
@@ -84,6 +80,8 @@ state.income <- tidycensus:: get_acs(geography = "state",
               key = key,
               geometry = TRUE)
 
+st_make_valid(state.income)
+
 #park names and visits in the intermountain west (tabular data, can join by state)
 park.visits <- read.csv("/opt/data/session14//ParkVisits_2020IWPW.csv", skip = 3)
 
@@ -94,27 +92,36 @@ colnames(state.income)
 
 data(fips_codes)
 str(state.income$NAME)
-
-
 fips_codes1 <- fips_codes[, -c(4:5)]
-
 fips_codes1 <- unique(fips_codes1)
-
 str(fips_codes1$state_name)
-
 state.income.fips <- dplyr::left_join(state.income, fips_codes1, by = c("NAME" = "state_name"))
 
+#check everything
+st_crs(state.income.fips) == st_crs(mammal.rich)
 
 #need to join the tab data (park visits) with the sf object (state income)
+park.visits$RecreationVisits <- parse_number(park.visits$RecreationVisits)
 
-stateincome.parkvisits <- left_join(park.visits, state.income.fips, by = c("State" = "state"))
+stateparkvisits <- park.visits %>% group_by(State) %>% mutate(., visits_by_state = sum(RecreationVisits, na.rm = TRUE)) %>% distinct(., State, .keep_all = TRUE)
+
+df <- state.income.fips %>% 
+  left_join(., stateparkvisits, by = c("state" = "State"))
 
 ##now I need to extract mammal richness from the raster and add it to my new dataframe
+st_crs(df) == st_crs(mammal.rich)
 
+df.vec <- vect(df)
+ric.crop <- crop(mammal.rich, df.vec)
+rich <- terra::extract(ric.crop, df.vec, fun = mean)
 
+dim(df.vec)
+dim(rich)
 
+#add the data back to my df
+names(rich)[1] <- 'state'
 
-
+df.summary <- left_join(df, rich)
 
 ```
 
