@@ -119,10 +119,13 @@ dim(df.vec)
 dim(rich)
 
 #add the data back to my df
-names(rich)[1] <- 'state'
 
-df.summary <- left_join(df, rich)
+names(rich)[2] <- "richness"
+df <- add_rownames(df)
+rich <- add_rownames(rich)
 
+df.summary <- left_join(df, rich, by = c("rowname" = "rowname"))
+head(df.summary)
 ```
 
 
