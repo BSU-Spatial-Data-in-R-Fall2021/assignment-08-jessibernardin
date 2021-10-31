@@ -125,7 +125,7 @@ df <- add_rownames(df)
 rich <- add_rownames(rich)
 
 df.summary <- left_join(df, rich, by = c("rowname" = "rowname"))
-head(df.summary)
+head(df.summary$visits_by_state)
 ```
 
 
@@ -133,6 +133,19 @@ head(df.summary)
 Practice making a quick map with tmap. 
 
 ```{r tmap}
+#visits to parks by state in millions
+tm_shape(st_as_sf(df.summary)) + tm_polygons(col = "visits_by_state",  border.col = "white") + 
+  tm_legend(outside = TRUE)
+
+
+
+tm_shape(ric.crop) +
+  tm_raster("Value", palette = viridis(n=50), n=50, legend.show=FALSE, legend.hist = TRUE, legend.hist.title = "Species Richness") +
+tm_shape(st_as_sf(df.summary)) +
+  tm_polygons(col = "estimate",  border.col = "white", title="Mean Income") + 
+  tm_legend(outside = TRUE)
+
+
 
 ```
 
