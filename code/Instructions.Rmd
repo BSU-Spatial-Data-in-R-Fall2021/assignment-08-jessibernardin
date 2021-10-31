@@ -214,7 +214,10 @@ c
 
 _Question 3:_ Reflect on the different maps you've made, what do the different visualizations tell you about the data you plotted?
 
-- 
+
+- The tshape maps are very clear, the legends look nice and I think they looked the tidiest.  However, the species richness histogram on the right was hard to interpret.
+- The ggmap was pretty confusing map, the alpha function was nice but really the layer under was uninformative.  
+- Cartogram maps are pretty cool.  Although it takes a minute to get over the "shock" and weirdness, it is feels easier to interpret size over color.
 
 _Question 4:_ How might you improve the maps you've made?
 
