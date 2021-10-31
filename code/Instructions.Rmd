@@ -145,22 +145,40 @@ tm_shape(st_as_sf(df.summary)) +
   tm_polygons(col = "estimate",  border.col = "white", title="Mean Income") + 
   tm_legend(outside = TRUE)
 
-
-
 ```
-
-
-
-
 
 # Task 4: Build a choropleth with ggplot
 Your map should have a basemap, should rely on more than one aesthetic (color, transparency, etc), and combine multiple layers.
 
 ```{r chloromap}
+df.summary <- st_as_sf(df.summary)
+
+ggplot(df.summary) +
+  geom_sf(mapping = aes(fill = estimate))
 
 
+#AIzaSyDFBSvTPGYu_q9h6NWRKljkaMWb2f7ir48
+
+?ggmap
+?register_google
+register_google(key="AIzaSyAzPkku6ZMf_4fZSa3xpxHh2YL0AYYZu44")
+map<-get_map(location="united states", zoom=4, maptype = "terrain",
+             source="google",color="color")
 
 
+ggmap(map) +
+   geom_sf(data = df.summary, mapping = aes(fill = estimate), inherit.aes = FALSE) +
+  coord_sf(crs = st_crs(4326))
+
+
+ggmap(map) +
+  geom_sf(data = df.summary, mapping = aes(fill = estimate, 
+                                           alpha = (estimate - max(estimate, na.rm=TRUE))/(max(estimate, na.rm=TRUE)-min(estimate, na.rm = TRUE))), inherit.aes = FALSE) + scale_fill_viridis(option="magma") + coord_sf(crs = st_crs(4326))
+
+
+#maps not aligned well despite being in same projectin
+#saw a website that says sometimes the bb is in 4326 but the raster file is in a different crs
+#https://github.com/dkahle/ggmap/issues/160
 
 ```
 
@@ -170,6 +188,18 @@ Your map should have a basemap, should rely on more than one aesthetic (color, t
 Follow the examples to build cartograms that display your region of interest based on variables other than area.
 
 ```{r cart}
+
+id_pop <- cartogram_cont(id.census, "pop", itermax = 5)
+
+id_inc <- cartogram_cont(id.census, "medianincome", itermax = 5)
+
+tm_shape(id_pop) + tm_polygons("pop", style = "jenks") +
+  tm_layout(frame = FALSE, legend.position = c("left", "bottom")) 
+
+tm_shape(id_inc) + tm_polygons("medianincome", style = "jenks") +
+  tm_layout(frame = FALSE, legend.position = c("left", "bottom"))
+
+
 
 ```
 
@@ -182,8 +212,11 @@ _Question 3:_ Reflect on the different maps you've made, what do the different v
 
 _Question 4:_ How might you improve the maps you've made?
 
-- 
+- Crop to the SW
+- zoom in and give more data at the county level
+- try making a facets wrap to show a few different maps
+- clean up the legends and make sure they are labelled correctly
 
 _Question 5:_ Is a map the best way to evaluate the data you worked with? Why or Why not?
 
-- 
+- A map might make the data I'm using a little too complicated.  It might be simplest to show a graph to show if there is any correlation between state income and state species richness.  
