@@ -183,23 +183,29 @@ ggmap(map) +
 ```
 
 
-
 # Task 5: Build 2 cartograms
 Follow the examples to build cartograms that display your region of interest based on variables other than area.
 
 ```{r cart}
+state.income.t <- st_transform(state.income, st_crs(mammal.rich))
+income <- cartogram_cont(state.income.t, "estimate", itermax = 5)
 
-id_pop <- cartogram_cont(id.census, "pop", itermax = 5)
+df.t <- st_transform(df.summary, st_crs(mammal.rich))
+mam.rich <- cartogram_cont(df.t, "richness", itermax = 5)
 
-id_inc <- cartogram_cont(id.census, "medianincome", itermax = 5)
+pv <- cartogram_cont(df.t, "visits_by_state", itermax = 5)
 
-tm_shape(id_pop) + tm_polygons("pop", style = "jenks") +
+
+a <- tm_shape(income) + tm_polygons("estimate", style = "jenks") +
   tm_layout(frame = FALSE, legend.position = c("left", "bottom")) 
 
-tm_shape(id_inc) + tm_polygons("medianincome", style = "jenks") +
+b <- tm_shape(mam.rich) + tm_polygons("richness", style = "jenks") +
   tm_layout(frame = FALSE, legend.position = c("left", "bottom"))
+b
 
-
+c <- tm_shape(pv) + tm_polygons("visits_by_state", style = "jenks") +
+  tm_layout(frame = FALSE, legend.position = c("left", "bottom"))
+c
 
 ```
 
