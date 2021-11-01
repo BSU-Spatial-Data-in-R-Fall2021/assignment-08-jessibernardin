@@ -161,7 +161,7 @@ ggplot(df.summary) +
 
 ?ggmap
 ?register_google
-register_google(key="AIzaSyAzPkku6ZMf_4fZSa3xpxHh2YL0AYYZu44")
+register_google(key="xxxx")
 map<-get_map(location="united states", zoom=4, maptype = "terrain",
              source="google",color="color")
 
