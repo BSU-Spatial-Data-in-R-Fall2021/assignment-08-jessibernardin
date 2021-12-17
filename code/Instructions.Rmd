@@ -36,6 +36,7 @@ _Question 1_ Why are they bad? What might improve them?
 _Question 2_ Rely on the Healy and Wilke texts to provide some structure to your answers.
 
 - In general these figures have aesthetic problems, are unclear, and are objectively incorrect because the wrong CRS.
+__MW: yes, but which specific elements of the Healy or Wilke principles does each map violate. I would have rather you found published maps rather than these early drafts, but I didn't make that clear in the instructions, I guess__
 
 # Task 2: Load your libraries and build a dataframe
 You can choose whichever datasets you'd like from the past several months as the subject for your mapping. You'll need to use at least one tabular join, one spatial join, and one extraction to create the dataframe. Load the packages, the data, and make sure everything is projected here. Give me a sense for what you are hoping to map.
@@ -98,7 +99,7 @@ str(fips_codes1$state_name)
 state.income.fips <- dplyr::left_join(state.income, fips_codes1, by = c("NAME" = "state_name"))
 
 #check everything
-st_crs(state.income.fips) == st_crs(mammal.rich)
+st_crs(state.income.fips) == st_crs(mammal.rich) #this returns false
 
 #need to join the tab data (park visits) with the sf object (state income)
 park.visits$RecreationVisits <- parse_number(park.visits$RecreationVisits)
@@ -126,6 +127,7 @@ rich <- add_rownames(rich)
 
 df.summary <- left_join(df, rich, by = c("rowname" = "rowname"))
 head(df.summary$visits_by_state)
+##MW: near as I can tell these data are not aligned, so the extractions are off whic is why I get NA for almost everything
 ```
 
 
@@ -229,3 +231,5 @@ _Question 4:_ How might you improve the maps you've made?
 _Question 5:_ Is a map the best way to evaluate the data you worked with? Why or Why not?
 
 - A map might make the data I'm using a little too complicated.  It might be simplest to show a graph to show if there is any correlation between state income and state species richness.  
+
+_MW: these are fine answers. I can't really tell exactly what you're referring too because I was unable to reproduce the analysis you did and the knit document was lacking the actual code outputs_
